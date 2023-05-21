@@ -1,7 +1,8 @@
 import { z } from 'zod'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { RegisterUseCase } from '../../services/register'
-import { PrismaUsersRepository } from '../../repositories/prisma-users-repository'
+import { PrismaUsersRepository } from '../../repositories/prisma/prisma-users-repository'
+import { UserAlreadyTakenError } from '../../services/errors/user-already-taken-error'
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
   const registerBodySchema = z.object({
@@ -18,7 +19,11 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
     await registerUser.registerUser({ name, email, password })
   } catch (error) {
-    return reply.status(409).send()
+    if (error instanceof UserAlreadyTakenError) {
+      return reply.status(409).send({ message: error.message })
+    }
+
+    return reply.status(500).send()
   }
 
   return reply.status(201).send()
