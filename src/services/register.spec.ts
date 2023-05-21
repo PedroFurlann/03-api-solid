@@ -7,9 +7,9 @@ import { UserAlreadyTakenError } from './errors/user-already-taken-error'
 describe('Register service', () => {
   it('should hash user password upon registration', async () => {
     const usersRepository = new InMemoryUsersRepository()
-    const registerService = new RegisterUseCase(usersRepository)
+    const sut = new RegisterUseCase(usersRepository)
 
-    const { user } = await registerService.registerUser({
+    const { user } = await sut.registerUser({
       name: 'Pedro',
       email: 'example@gmail.com',
       password: '123455',
@@ -25,18 +25,18 @@ describe('Register service', () => {
 
   it('should not be able to register with same email twice', async () => {
     const usersRepository = new InMemoryUsersRepository()
-    const registerService = new RegisterUseCase(usersRepository)
+    const sut = new RegisterUseCase(usersRepository)
 
     const email = 'example@gmail.com'
 
-    await registerService.registerUser({
+    await sut.registerUser({
       name: 'Pedro',
       email,
       password: '123455',
     })
 
     await expect(() =>
-      registerService.registerUser({
+      sut.registerUser({
         name: 'Pedro',
         email,
         password: '123455',
@@ -46,9 +46,9 @@ describe('Register service', () => {
 
   it('should be able to register', async () => {
     const usersRepository = new InMemoryUsersRepository()
-    const registerService = new RegisterUseCase(usersRepository)
+    const sut = new RegisterUseCase(usersRepository)
 
-    const { user } = await registerService.registerUser({
+    const { user } = await sut.registerUser({
       name: 'Pedro',
       email: 'example@gmail.com',
       password: '123455',
