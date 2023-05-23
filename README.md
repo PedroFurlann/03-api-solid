@@ -1,1 +1,1 @@
-Gym API - Ignite
+Gym API
