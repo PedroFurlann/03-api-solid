@@ -29,7 +29,7 @@ describe('Authenticate service', () => {
   })
 
   it('should not be able to authenticate with wrong email', async () => {
-    expect(() =>
+    await expect(() =>
       sut.execute({
         email: 'example@gmail.com',
         password: '123455',
@@ -44,7 +44,7 @@ describe('Authenticate service', () => {
       password_hash: await hash('123455', 6),
     })
 
-    expect(() =>
+    await expect(() =>
       sut.execute({
         email: 'example@gmail.com',
         password: '123456',

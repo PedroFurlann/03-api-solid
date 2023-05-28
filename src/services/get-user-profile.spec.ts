@@ -34,7 +34,7 @@ describe('Get User Profile service', () => {
       password_hash: await hash('123455', 6),
     })
 
-    expect(() =>
+    await expect(() =>
       sut.execute({
         userId: 'non-existing-id',
       }),
