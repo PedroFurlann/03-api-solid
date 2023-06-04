@@ -26,7 +26,7 @@ export class ValidateCheckInUseCase {
 
     const distanceInMinutesFromCheckInCreation = dayjs(new Date()).diff(
       checkIn.created_at,
-      'minute',
+      'minutes',
     )
 
     if (distanceInMinutesFromCheckInCreation > 20) {
